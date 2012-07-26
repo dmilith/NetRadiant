@@ -6,7 +6,7 @@ set -ex
 : ${CP:=cp}
 : ${INSTALLDIR:=.}
 : ${EXE:=ppc}
-: ${MACLIBDIR:=/sw/lib}
+: ${MACLIBDIR:=/usr/local/lib}
 : ${CAT:=cat}
 
 
@@ -48,10 +48,10 @@ done
 cp -L "$LAST" "$INSTALLDIR"
 finkgetdeps "$LAST"
 
-cp -L "$MACLIBDIR"/../etc/fonts/fonts.conf "$INSTALLDIR"
-cp -L "$MACLIBDIR"/../etc/fonts/fonts.dtd "$INSTALLDIR"
-cp -L "$MACLIBDIR"/../etc/gtk-2.0/gdk-pixbuf.loaders "$INSTALLDIR"
-cp -L "$MACLIBDIR"/../etc/pango/pangorc "$INSTALLDIR"
+# cp -L /usr/X11/lib/X11/fontconfig/fonts.conf "$INSTALLDIR"
+# cp -L /usr/X11/lib/X11/fontconfig/fonts.dtd "$INSTALLDIR"
+# cp -L "$MACLIBDIR"/../etc/gtk-2.0/gdk-pixbuf.loaders "$INSTALLDIR"
+# cp -L "$MACLIBDIR"/../etc/pango/pangorc "$INSTALLDIR"
 
 $CAT > "$INSTALLDIR/../netradiant.sh" <<EOF
 #!/bin/sh

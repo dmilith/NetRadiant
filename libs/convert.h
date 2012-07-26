@@ -92,6 +92,8 @@ inline TextOutputStreamType& ostream_write(TextOutputStreamType& ostream, const 
 /// \brief The character-set encoding for the current C locale.
 ///
 /// Obtain the global instance with globalCharacterSet().
+#include <glib.h>
+
 class CharacterSet
 {
   const char* m_charSet;

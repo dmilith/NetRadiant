@@ -4,31 +4,32 @@ MAKEFILE_CONF      ?= Makefile.conf
 ## CONFIGURATION SETTINGS
 # user customizable stuf
 # you may override this in Makefile.conf or the environment
-BUILD              ?= debug
+BUILD              ?= release
 # or: release, or: extradebug, or: profile
 OS                 ?= $(shell uname)
 # or: Linux, Win32, Darwin
 LDFLAGS            ?=
-CFLAGS             ?=
-CXXFLAGS           ?=
-CPPFLAGS           ?=
-LIBS               ?=
-RADIANT_ABOUTMSG   ?= Custom build
+CFLAGS             ?= -I/usr/local/include
+CXXFLAGS           ?= -I/usr/local/include
+CPPFLAGS           ?= -I/usr/local/include
+LIBS               ?= -lpng
+RADIANT_ABOUTMSG   ?= Custom build by dmilith
 
 # warning: this directory may NOT contain any files other than the ones written by this Makefile!
 # NEVER SET THIS TO A SYSTEM WIDE "bin" DIRECTORY!
 INSTALLDIR         ?= install
 
-CC                 ?= gcc
-CXX                ?= g++
+GCC                = gcc
+CC                 = gcc
+CXX                = g++
 RANLIB             ?= ranlib
 AR                 ?= ar
 LDD                ?= ldd # nothing on Win32
-OTOOL              ?= # only used on OS X
+OTOOL              ?= otool # only used on OS X
 WINDRES            ?= windres # only used on Win32
 
 PKGCONFIG          ?= pkg-config
-PKG_CONFIG_PATH    ?=
+PKG_CONFIG_PATH    = /usr/local/Cellar/pixman/0.26.2/lib/pkgconfig:/usr/local/lib/pkgconfig:/usr/local/Cellar/gtk+/2.24.11/lib/pkgconfig:/usr/local/Cellar/cairo/1.12.2/lib/pkgconfig:/usr/lib/pkgconfig:/usr/X11/lib/pkgconfig
 
 SH                 ?= $(SHELL)
 ECHO               ?= echo
@@ -196,12 +197,12 @@ else
 ifeq ($(OS),Darwin)
 	CPPFLAGS_COMMON += -DPOSIX -DXWINDOWS
 	CFLAGS_COMMON += -fPIC
-	CXXFLAGS_COMMON += -fno-exceptions -fno-rtti
-	CPPFLAGS_COMMON += -I/opt/local/include -I/sw/include -I/usr/X11R6/include
-	LDFLAGS_COMMON += -L/opt/local/lib -L/sw/lib -L/usr/X11R6/lib
-	LDFLAGS_DLL += -dynamiclib -ldl
-	EXE ?= ppc
-	MACLIBDIR ?= /opt/local/lib
+	CXXFLAGS_COMMON += -fno-exceptions -fno-rtti 
+	CPPFLAGS_COMMON += -I/usr/local/include -I/usr/include -I/opt/X11/include -D_REENTRANT -I/usr/local/Cellar/pixman/0.26.2/include/pixman-1 -I/usr/local/Cellar/gtk+/2.24.11/include/gtk-2.0 -I/usr/local/Cellar/gtk+/2.24.11/lib/gtk-2.0/include -I/usr/local/Cellar/atk/2.4.0/include/atk-1.0 -I/usr/local/Cellar/gdk-pixbuf/2.26.1/include/gdk-pixbuf-2.0 -I/usr/local/Cellar/pango/1.30.1/include/pango-1.0 -I/usr/local/Cellar/glib/2.32.4/include/glib-2.0 -I/usr/local/Cellar/glib/2.32.4/lib/glib-2.0/include -I/usr/local/Cellar/gettext/0.18.1.1/include -I/usr/local/Cellar/cairo/1.12.2/include/cairo -I/usr/X11/include -I/usr/X11/include/freetype2 -I/usr/X11/include/libpng15
+	LDFLAGS_COMMON += -L/usr/local/lib -L/usr/lib -L/opt/X11/lib 
+	LDFLAGS_DLL += -dynamiclib -ldl -L/usr/local/Cellar/gtk+/2.24.11/lib -L/usr/local/Cellar/atk/2.4.0/lib -L/usr/local/Cellar/gdk-pixbuf/2.26.1/lib -L/usr/local/Cellar/glib/2.32.4/lib -L/usr/local/Cellar/pango/1.30.1/lib -L/usr/local/Cellar/gettext/0.18.1.1/lib -L/usr/local/Cellar/cairo/1.12.2/lib -L/usr/X11/lib -lgtk-x11-2.0 -lgdk-x11-2.0 -latk-1.0 -lgio-2.0 -lpangoft2-1.0 -lpangocairo-1.0 -lgdk_pixbuf-2.0 -lcairo -lpango-1.0 -lfreetype -lfontconfig -lgobject-2.0 -lglib-2.0 -lintl
+	EXE ?= x86_64
+	MACLIBDIR ?= /usr/local/lib
 	A = a
 	DLL = dylib
 	MWINDOWS =
@@ -209,8 +210,8 @@ ifeq ($(OS),Darwin)
 	ECHO_NOLF = /bin/echo -n
 
 	# workaround: http://developer.apple.com/qa/qa2007/qa1567.html
-	LIBS_GL += -lX11 -dylib_file /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib:/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib
-	LIBS_GTKGLEXT += -lX11 -dylib_file /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib:/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib
+	LIBS_GL +=  -lX11 -dylib_file /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib:/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib
+	LIBS_GTKGLEXT +=  -lX11 -dylib_file /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib:/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib
 	# workaround: we have no "ldd" for OS X, so...
 	LDD =
 	OTOOL = otool
