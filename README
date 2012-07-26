@@ -1,0 +1,15 @@
+This is fork of official Netradiant repository for OSX Snow Leopard/Lion and 64bit executable support.
+
+1. Install XQuartz
+2. install homebrew + gtk2 + deps
+3. Download latest release (binary) of Netradiant for OSX (latest available 32bit build is on Netradiant site)
+4. Fight with idiotic #error directives in glib. Do: make DEPENDENCIES_CHECK=off in this repository (don't expect pkg-config to work well..)
+5. Take everything under install/, and copy it over same directory in previous release.
+6. You're done, and You have 64bit version of Netradiant working.
+
+
+Prebuilt 64bit version is available at: http://get.files.verknowsys.com/files/d0df25c85cef740557ee7be110d93fbdb7c899ad6h/1c600cb1b5d1fc486e2593ed2e6b106c225f9bf8
+
+
+Patched & hacked by dmilith.
+
